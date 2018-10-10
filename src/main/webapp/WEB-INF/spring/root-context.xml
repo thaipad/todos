@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <context:component-scan base-package="pro.thaipad.todos"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/tasksdb"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="admin"/>
+    </bean>
+
+    <bean id="transactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean name="simpleTask" class="pro.thaipad.todos.objects.SimpleTask" scope="prototype">
+        <constructor-arg name="name" value="test 2"/>
+        <property name="description" value="description for test 2"/>
+    </bean>
+
+    <bean name="loginUser" class="pro.thaipad.todos.objects.User">
+        <constructor-arg name="name" value="Unregistred"/>
+        <constructor-arg name="email" value="none"/>
+    </bean>
+
+    <bean name="project" class="pro.thaipad.todos.objects.Project" scope="prototype">
+        <constructor-arg name="name" value="test"/>
+    </bean>
+
+    <!--    <bean name="postgreTasksDao" class="pro.thaipad.todos.dao.PostgreTasksDao">
+            <constructor-arg name="dataSource" ref="dataSource"/>
+        </bean>
+    -->
+
+</beans>
